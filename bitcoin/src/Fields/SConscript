@@ -1,0 +1,34 @@
+import os
+
+Import(['env'])
+
+libEnv = env.Clone()
+libEnv.Append(
+    CPPPATH=['include'],
+    # LIBS=[]
+)
+
+# Build shared library
+sources = Glob('src/*.cpp')
+fieldElement = libEnv.SharedLibrary('BtcFieldElement', sources)
+libEnv.Alias('field-element-lib', fieldElement)
+libEnv.Alias('install-field-element-lib', env.Install(env['BTC_LIBS'], fieldElement))
+
+# Build tests
+testEnv = libEnv.Clone()
+testEnv.Append(
+    LIBS=[
+        'BtcFieldElement',
+        'gtest',
+    ]
+)
+sources = Glob('tests/*.cpp')
+
+unitTests = testEnv.Program('FieldElementLibTests', sources)
+testFieldElement = env.Install(testEnv['BTC_TESTS'], unitTests)
+env.Alias('test-field-element-lib', testFieldElement)
+
+# Setup test runner
+env.Test('test.fieldElementLib', testFieldElement)
+env.AlwaysBuild('test.fieldElementLib')
+env.Alias('runtest-field-element-lib', 'test.fieldElementLib')

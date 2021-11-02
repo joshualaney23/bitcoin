@@ -1,0 +1,37 @@
+import os 
+
+Import(['env'])
+
+subdirs = [
+    'Fields',
+]
+
+for subdir in subdirs:
+    script = os.path.join('src/' + subdir, 'SConscript')
+    build_dir = os.path.join(str(env['BTC_BUILD']), 'bitcoin', subdir)
+    SConscript(script, variant_dir=build_dir, duplicate=False)
+
+## Aliases
+env.Alias('lib',
+    [
+        'field-element-lib',
+    ]
+)
+
+env.Alias('install-lib',
+    [
+        'install-field-element-lib',
+    ]
+)
+
+env.Alias('test-lib',
+    [
+        'test-field-element-lib',
+    ]
+)
+
+env.Alias('runtests-lib',
+    [
+        'runtest-field-element-lib',
+    ]
+)
