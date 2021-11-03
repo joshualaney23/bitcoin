@@ -9,7 +9,7 @@
 
 #include "FieldElement.hpp"
 
-using namespace field;
+using namespace crypto;
 
 TEST(FieldElementTests, NotEqualTest)
 {
