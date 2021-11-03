@@ -1,3 +1,10 @@
+## Custom
+.DS_Store
+.sconsign.dblite
+.vscode/
+build/
+
+## Auto generated
 # Prerequisites
 *.d
 
@@ -26,5 +33,3 @@
 *.exe
 *.out
 *.app
-
-.DS_Store

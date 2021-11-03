@@ -14,20 +14,16 @@ class FieldElement
 
     friend bool operator==(const FieldElement& lhs, const FieldElement& rhs);
     friend bool operator!=(const FieldElement& lhs, const FieldElement& rhs);
-    friend FieldElement operator+(const FieldElement& other);
-    friend FieldElement operator-(const FieldElement& other);
-    friend FieldElement operator*(const FieldElement& other);
+    friend FieldElement operator+(const FieldElement& lhs, const FieldElement& rhs);
+    friend FieldElement operator-(const FieldElement& lhs, const FieldElement& rhs);
+    friend FieldElement operator*(const FieldElement& lhs, const FieldElement& rhs);
     // Note: Bitwise OR is commandeered for the power operator
-    friend FieldElement operator^(const int& power);
-    friend FieldElement operator/(const FieldElement& other);
+    friend FieldElement operator^(const FieldElement& lhs, const int& power);
+    friend FieldElement operator/(const FieldElement& lhs, const FieldElement& rhs);
     friend std::ostream& operator<<(std::ostream& os, const FieldElement& element);
     
     int Number;
     int Prime;
-
-  protected:
-    // Calculates (a^b) % mod
-    int PowerModulo(int a, int b, int modulus);
 };
 
 } // namespace crypto

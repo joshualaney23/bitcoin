@@ -1,12 +1,4 @@
-//
-//  FieldElement.cpp
-//  bitcoin
-//
-//  Created by Josh Laney on 11/1/21.
-//  Copyright © 2021 Josh Laney. All rights reserved.
-//
-
-#include "FieldElement.hpp"
+#include "Point.hpp"
 
 #include <exception>
 

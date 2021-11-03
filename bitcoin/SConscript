@@ -3,7 +3,7 @@ import os
 Import(['env'])
 
 subdirs = [
-    'Crypto',
+    'crypto',
 ]
 
 for subdir in subdirs:

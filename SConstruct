@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 EnsurePythonVersion(3,6)
-EnsureSconsVersion(4,1)
+# EnsureSconsVersion(4,1)
 
 env = Environment(
     ENV=os.environ,
@@ -23,6 +23,17 @@ env['BTC_TESTS'] = env['BTC_BUILD'].Dir('tests')
 
 env.Append(LIBPATH=Dir(env['BTC_LIBS']))
 
+# Test setup
+def builder_unit_test(target, source, env):
+    app = str(source[0].abspath)
+    process = subprocess.run([app], env=env["ENV"])
+    if process.returncode == 0:
+        open(str(target[0]),'w').write('PASSED\n')
+        return 0
+    else:
+        return 1
+
+# Create builder for unit tests
 bld = Builder(action = builder_unit_test)
 env.Append(BUILDERS = {'Test' : bld})
 

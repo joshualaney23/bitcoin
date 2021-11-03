@@ -1,14 +1,8 @@
-//
-//  FieldElement.cpp
-//  bitcoin
-//
-//  Created by Josh Laney on 11/1/21.
-//  Copyright © 2021 Josh Laney. All rights reserved.
-//
-
 #include "FieldElement.hpp"
+#include "Helpers.hpp"
 
 #include <exception>
+#include <sstream>
 
 namespace crypto
 {
@@ -36,61 +30,61 @@ bool operator!=(const FieldElement& lhs, const FieldElement& rhs)
     return !(lhs == rhs);
 }
 
-FieldElement operator+(const FieldElement& other)
+FieldElement operator+(const FieldElement& lhs, const FieldElement& rhs)
 {
     // Elements must be in the same finite field, otherwise the calculation is meaningless
-    if (Prime != other.Prime)
+    if (lhs.Prime != rhs.Prime)
     {
         throw std::runtime_error("Cannot add two numbers in different fields");
     }
 
-    auto number = (Number + other.Number) % Prime;
-    return FieldElement(number, Prime);
+    auto number = (lhs.Number + rhs.Number) % lhs.Prime;
+    return FieldElement(number, lhs.Prime);
 }
 
-FieldElement operator-(const FieldElement& other)
+FieldElement operator-(const FieldElement& lhs, const FieldElement& rhs)
 {
     // Elements must be in the same finite field, otherwise the calculation is meaningless
-    if (Prime != other.Prime)
+    if (lhs.Prime != rhs.Prime)
     {
         throw std::runtime_error("Cannot substract two numbers in different fields");
     }
 
-    auto number = (Number - other.Number) % Prime;
-    return FieldElement(number, Prime);
+    auto number = (lhs.Number - rhs.Number) % lhs.Prime;
+    return FieldElement(number, lhs.Prime);
 }
 
-FieldElement operator*(const FieldElement& other)
+FieldElement operator*(const FieldElement& lhs, const FieldElement& rhs)
 {
     // Elements must be in the same finite field, otherwise the calculation is meaningless
-    if (Prime != other.Prime)
+    if (lhs.Prime != rhs.Prime)
     {
         throw std::runtime_error("Cannot multiply two numbers in different fields");
     }
 
-    auto number = (Number * other.Number) % Prime;
-    return FieldElement(number, Prime);
+    auto number = (lhs.Number * rhs.Number) % lhs.Prime;
+    return FieldElement(number, lhs.Prime);
 }
 
-FieldElement operator^(const int& power)
+FieldElement operator^(const FieldElement& lhs, const int& power)
 {
     // a^(p-1) = 1, so exploit this to force the power to be positive
-    auto n = power % (Prime - 1)
-    auto number = PowerModulo(Number, n, Prime);
-    return FieldElement(number, Prime);
+    auto n = power % (lhs.Prime - 1);
+    auto number = PowerModulo(lhs.Number, n, lhs.Prime);
+    return FieldElement(number, lhs.Prime);
 }
 
-FieldElement operator/(const FieldElement& other)
+FieldElement operator/(const FieldElement& lhs, const FieldElement& rhs)
 {
     // Elements must be in the same finite field, otherwise the calculation is meaningless
-    if (Prime != other.Prime)
+    if (lhs.Prime != rhs.Prime)
     {
         throw std::runtime_error("Cannot divide two numbers in different fields");
     }
 
     // Fermat's Little Theorem: Number^(Prime-1) % Prime == 1, or 1/Number == pow(Number, Prime - 2, Prime)
-    auto number = (Number * (PowerModulo(other.Number, Prime - 2, Prime)) % Prime;
-    return FieldElement(number, Prime);
+    auto number = (lhs.Number * (PowerModulo(rhs.Number, lhs.Prime - 2, lhs.Prime))) % lhs.Prime;
+    return FieldElement(number, lhs.Prime);
 }
 
 std::ostream& operator<<(std::ostream& os, const FieldElement& element)
@@ -98,26 +92,6 @@ std::ostream& operator<<(std::ostream& os, const FieldElement& element)
     // Write FieldElement to stream
     os << "FieldElement_" << element.Prime << "(" << element.Number << ")";
     return os;
-}
-
-int FieldElement::PowerModulo(int a, int b, int modulus)
-{
-    int x = 1, y = a;
-    while (b > 0)
-    {
-        if (b % 2 == 1)
-        {
-            x = x * y;
-            x %= modulus;
-        }
-
-        y = y * y;
-        y %= modulus;
-
-        b /= 2;
-    }
-
-    return x;
 }
 
 } // namespace crypto
