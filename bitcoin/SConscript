@@ -3,7 +3,7 @@ import os
 Import(['env'])
 
 subdirs = [
-    'Fields',
+    'Crypto',
 ]
 
 for subdir in subdirs:
@@ -14,24 +14,24 @@ for subdir in subdirs:
 ## Aliases
 env.Alias('lib',
     [
-        'field-element-lib',
+        'crypto-lib',
     ]
 )
 
 env.Alias('install-lib',
     [
-        'install-field-element-lib',
+        'install-crypto-lib',
     ]
 )
 
 env.Alias('test-lib',
     [
-        'test-field-element-lib',
+        'test-crypto-lib',
     ]
 )
 
 env.Alias('runtests-lib',
     [
-        'runtest-field-element-lib',
+        'runtest-crypto-lib',
     ]
 )

@@ -8,10 +8,9 @@
 
 #include "FieldElement.hpp"
 
-#include <cmath>
 #include <exception>
 
-namespace field
+namespace crypto
 {
 
 FieldElement::FieldElement(int number, int prime)
@@ -121,4 +120,4 @@ int FieldElement::PowerModulo(int a, int b, int modulus)
     return x;
 }
 
-}
+} // namespace crypto

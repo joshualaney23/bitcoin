@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-namespace field
+namespace crypto
 {
 
 class FieldElement
@@ -38,4 +38,4 @@ class FieldElement
     int PowerModulo(int a, int b, int modulus);
 };
 
-}
+} // namespace crypto

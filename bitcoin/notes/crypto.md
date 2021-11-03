@@ -14,3 +14,5 @@ a^-1  := a^99 % 101
 
 # Fermat's Little Theorem
 n^(p-1) % p = 1, where p is prime
+
+Bitcoin's elliptic curve is called secp256k1: y^2 = x^3 + 7

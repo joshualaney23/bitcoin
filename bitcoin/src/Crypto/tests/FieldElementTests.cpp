@@ -53,11 +53,11 @@ TEST(FieldElementTests, MultiplyTest)
 TEST(FieldElementTests, PowerTest)
 {
    auto a = FieldElement(17, 31);
-   ASSERT_EQ(a**3, FieldElement(15, 31));
+   ASSERT_EQ(a ^ 3, FieldElement(15, 31));
    
    auto b = FieldElement(5, 31);
    auto c = FieldElement(18, 31);
-   ASSERT_EQ(b**5 * c, FieldElement(16, 31));
+   ASSERT_EQ(b ^ 5 * c, FieldElement(16, 31));
 }
 
 TEST(FieldElementTests, DivisionTest)
@@ -67,11 +67,11 @@ TEST(FieldElementTests, DivisionTest)
    ASSERT_EQ(a / b, FieldElement(4, 31));
    
    auto c = FieldElement(17, 31);
-   ASSERT_EQ(c**-3, FieldElement(29, 31));
+   ASSERT_EQ(c ^ -3, FieldElement(29, 31));
    
    auto d = FieldElement(4, 31);
    auto e = FieldElement(11, 31);
-   ASSERT_EQ(d**-4 * e, FieldElement(13, 31));
+   ASSERT_EQ(d ^ -4 * e, FieldElement(13, 31));
 }
 
 int main(int argc, const char * argv[])
