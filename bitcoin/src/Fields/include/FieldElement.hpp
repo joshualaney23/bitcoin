@@ -32,6 +32,10 @@ class FieldElement
     
     int Number;
     int Prime;
+
+  protected:
+    // Calculates (a^b) % mod
+    int PowerModulo(int a, int b, int modulus);
 };
 
 }

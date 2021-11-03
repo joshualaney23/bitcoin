@@ -11,3 +11,6 @@ a + b := a + b % 101
 a * b := a * b % 101
 -a    := 101 - a
 a^-1  := a^99 % 101
+
+# Fermat's Little Theorem
+n^(p-1) % p = 1, where p is prime

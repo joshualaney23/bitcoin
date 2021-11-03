@@ -75,7 +75,22 @@ FieldElement operator*(const FieldElement& other)
 
 FieldElement operator^(const int& power)
 {
-    auto number = std::pow(Number, power) % Prime;
+    // a^(p-1) = 1, so exploit this to force the power to be positive
+    auto n = power % (Prime - 1)
+    auto number = PowerModulo(Number, n, Prime);
+    return FieldElement(number, Prime);
+}
+
+FieldElement operator/(const FieldElement& other)
+{
+    // Elements must be in the same finite field, otherwise the calculation is meaningless
+    if (Prime != other.Prime)
+    {
+        throw std::runtime_error("Cannot divide two numbers in different fields");
+    }
+
+    // Fermat's Little Theorem: Number^(p-1) % p == 1, or 1/Number == pow(n, p-2, p)
+    auto number = (Number * (PowerModulo(other.Number, Prime - 2, Prime)) % Prime;
     return FieldElement(number, Prime);
 }
 
@@ -84,6 +99,26 @@ std::ostream& operator<<(std::ostream& os, const FieldElement& element)
     // write obj to stream
     os << "FieldElement_" << element.Prime << "(" << element.Number << ")";
     return os;
+}
+
+int FieldElement::PowerModulo(int a, int b, int modulus)
+{
+    int x = 1, y = a;
+    while (b > 0)
+    {
+        if (b % 2 == 1)
+        {
+            x = x * y;
+            x %= modulus;
+        }
+
+        y = y * y;
+        y %= modulus;
+
+        b /= 2;
+    }
+
+    return x;
 }
 
 }
