@@ -33,7 +33,11 @@ TEST(FieldElementTests, SubtractTest)
    
    auto c = FieldElement(15, 31);
    auto d = FieldElement(30, 31);
-   self.assertEqual(c - d, FieldElement(16, 31));
+   ASSERT_EQ(c - d, FieldElement(16, 31));
+
+   auto e = FieldElement(0, 31);
+   auto f = FieldElement(30, 31);
+   ASSERT_EQ(e - f, FieldElement(1, 31));
 }
 
 TEST(FieldElementTests, MultiplyTest)
@@ -50,7 +54,10 @@ TEST(FieldElementTests, PowerTest)
    
    auto b = FieldElement(5, 31);
    auto c = FieldElement(18, 31);
-   ASSERT_EQ(b ^ 5 * c, FieldElement(16, 31));
+   ASSERT_EQ((b ^ 5) * c, FieldElement(16, 31));
+
+   auto d = FieldElement(17, 31);
+   ASSERT_EQ(d ^ 300000, FieldElement(1, 31));
 }
 
 TEST(FieldElementTests, DivisionTest)

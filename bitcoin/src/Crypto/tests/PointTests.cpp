@@ -14,9 +14,10 @@ TEST(PointTests, NotEqualTest)
 
 TEST(PointTests, Add0Test)
 {
-   auto a = Point(null, null, 5, 7);
+   auto a = Point(std::optional<int>(), std::optional<int>(), 5, 7);
    auto b = Point(2, 5, 5, 7);
    auto c = Point(2, -5, 5, 7);
+
    ASSERT_EQ(a + b, b);
    ASSERT_EQ(b + a, b);
    ASSERT_EQ(b + c, a);

@@ -50,7 +50,8 @@ FieldElement operator-(const FieldElement& lhs, const FieldElement& rhs)
         throw std::runtime_error("Cannot substract two numbers in different fields");
     }
 
-    auto number = (lhs.Number - rhs.Number) % lhs.Prime;
+    // Negative lhs % in C++ results in a negative rhs. Make lhs positive before the modulus
+    auto number = (lhs.Prime + (lhs.Number - rhs.Number)) % lhs.Prime;
     return FieldElement(number, lhs.Prime);
 }
 
@@ -69,8 +70,10 @@ FieldElement operator*(const FieldElement& lhs, const FieldElement& rhs)
 FieldElement operator^(const FieldElement& lhs, const int& power)
 {
     // a^(p-1) = 1, so exploit this to force the power to be positive
-    auto n = power % (lhs.Prime - 1);
-    auto number = PowerModulo(lhs.Number, n, lhs.Prime);
+    auto exponent = power;
+    while (exponent < 0)
+        exponent += lhs.Prime - 1;
+    auto number = PowerModulo(lhs.Number, exponent, lhs.Prime);
     return FieldElement(number, lhs.Prime);
 }
 

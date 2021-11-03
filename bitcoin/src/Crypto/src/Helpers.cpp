@@ -5,22 +5,13 @@ namespace crypto
 
 int PowerModulo(int a, int b, int modulus)
 {
-    int x = 1, y = a;
-    while (b > 0)
-    {
-        if (b % 2 == 1)
-        {
-            x = x * y;
-            x %= modulus;
-        }
+    if (b == 0)
+        return 1;
 
-        y = y * y;
-        y %= modulus;
+    auto p = PowerModulo(a, b / 2, modulus);
+    p = (p * p) % modulus;
 
-        b /= 2;
-    }
-
-    return x;
+    return (b % 2 == 0) ? p : (a * p) % modulus;
 }
 
 } // namespace crypto
