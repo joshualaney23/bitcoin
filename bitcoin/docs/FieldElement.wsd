@@ -1,5 +1,29 @@
 @startuml
 
+class FieldElement
+{
+    + FieldElement(number : int, prime : int);
+    + ~FieldElement() = default;
 
+    + operator==(lhs : const FieldElement&, rhs : const FieldElement&) : bool
+    + operator!=(lhs : const FieldElement&, rhs : const FieldElement&) : bool
+    + operator+(other : const FieldElement&) : FieldElement
+    + operator-(other : const FieldElement&) : FieldElement
+    + operator*(other : const FieldElement&) : FieldElement
+    + operator^(power : const int&) : FieldElement
+    + operator/(other : const FieldElement&) : FieldElement
+    + operator<<(os : std::ostream&, element : const FieldElement&) : ostream&
+    
+    + Number : int
+    + Prime : int
+
+    # PowerModulo(a : int, b : int, modulus : int) : int
+}
+note right of FieldElement::operator^
+    Note: Bitwise OR is commandeered for the power operator
+end note
+note right of FieldElement::PowerModulo
+    PowerModulo calculates (a^b) & mod
+end note
 
 @enduml

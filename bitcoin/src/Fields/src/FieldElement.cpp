@@ -89,7 +89,7 @@ FieldElement operator/(const FieldElement& other)
         throw std::runtime_error("Cannot divide two numbers in different fields");
     }
 
-    // Fermat's Little Theorem: Number^(p-1) % p == 1, or 1/Number == pow(n, p-2, p)
+    // Fermat's Little Theorem: Number^(Prime-1) % Prime == 1, or 1/Number == pow(Number, Prime - 2, Prime)
     auto number = (Number * (PowerModulo(other.Number, Prime - 2, Prime)) % Prime;
     return FieldElement(number, Prime);
 }
