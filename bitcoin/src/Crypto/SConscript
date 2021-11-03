@@ -20,6 +20,7 @@ testEnv.Append(
     LIBS=[
         'BtcCrypto',
         'gtest',
+        'gtest_main',
     ]
 )
 sources = Glob('tests/*.cpp')

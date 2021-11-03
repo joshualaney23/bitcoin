@@ -13,22 +13,28 @@
 namespace crypto
 {
 
-FieldElement::FieldElement(int number, int prime)
-   : Number(number)
-   , Prime(prime)
+Point::Point(int x, int y, int a, int b);
+   : X(x)
+   , Y(y)
+   , A(a)
+   , B(b)
 {
-   // Valid between 0 and N-1
-   if (Number < 0 || Number >= Prime)
-   {
-       std::stringstream error;
-       error << "Number " << Number << " not in field range [0," << Prime-1 << "].";
-       throw std::runtime_error(error.str());
-   }
+    // Avoid infinity point
+    if (x == null && y == null)
+        return;
+
+    // y^2 = x^3 + ax + b is the formula for the curve
+    if (Y*Y != X*X*X + (A * X) + B)
+    {
+        std::stringstream error;
+        error << "(" << X << ", " << Y << ") is not on the curve";
+        throw std::runtime_error(error.str());
+    }
 }
 
 bool operator==(const FieldElement& lhs, const FieldElement& rhs)
 {
-    return lhs.Number == rhs.Number && lhs.Prime == rhs.Prime;
+    return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.A == rhs.A && lhs.B == rhs.B;
 }
 
 bool operator!=(const FieldElement& lhs, const FieldElement& rhs)
@@ -36,17 +42,40 @@ bool operator!=(const FieldElement& lhs, const FieldElement& rhs)
     return !(lhs == rhs);
 }
 
-FieldElement operator+(const FieldElement& other)
+Point operator+(const Point& other)
 {
-    // Elements must be in the same finite field, otherwise the calculation is meaningless
-    if (Prime != other.Prime)
+    // Elements must be on the same curve
+    if (A != other.A || B != other.B)
     {
-        throw std::runtime_error("Cannot add two numbers in different fields");
+        std::stringstream error;
+        error << "Points " << this << ", " << other << "are not on the same curve";
+        throw std::runtime_error(error.str());
     }
 
-    auto number = (Number + other.Number) % Prime;
-    return FieldElement(number, Prime);
+    // Handle infinity point
+    if (X == null)
+        return other;
+    if (other.X == null)
+        return this;
+
+    // Handle vertical line
+    if (X == other.X && Y != other.Y)
+        return Point(null, null, A, B);
+
+    // Handle X1 != X2
+    if (X != other.X)
+    {
+        auto slope = (other.Y - Y) / (other.X - X);
+        auto x3 = slope * slope - X - other.X;
+        auto y3 = slope * (X - x3) - Y;
+        return Point(x3, y3, A, B);
+    }
 }
+
+
+
+
+
 
 FieldElement operator-(const FieldElement& other)
 {
@@ -93,31 +122,20 @@ FieldElement operator/(const FieldElement& other)
     return FieldElement(number, Prime);
 }
 
-std::ostream& operator<<(std::ostream& os, const FieldElement& element)
+
+
+
+
+
+std::ostream& operator<<(std::ostream& os, const Point& point)
 {
-    // Write FieldElement to stream
-    os << "FieldElement_" << element.Prime << "(" << element.Number << ")";
+    // Write Point to stream
+    if (point.X == null)
+        os << 'Point(infinity)';
+    else
+        os << "Point(" << point.X << ", " << point.Y << ")_" << point.A << "_" << point.B;
+
     return os;
-}
-
-int FieldElement::PowerModulo(int a, int b, int modulus)
-{
-    int x = 1, y = a;
-    while (b > 0)
-    {
-        if (b % 2 == 1)
-        {
-            x = x * y;
-            x %= modulus;
-        }
-
-        y = y * y;
-        y %= modulus;
-
-        b /= 2;
-    }
-
-    return x;
 }
 
 } // namespace crypto

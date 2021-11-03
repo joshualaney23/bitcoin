@@ -1,10 +1,3 @@
-//
-//  FieldTests.cpp
-//  bitcoin
-//
-//  Created by Josh Laney on 11/1/21.
-//  Copyright © 2021 Josh Laney. All rights reserved.
-//
 #include <gtest/gtest.h>
 
 #include "FieldElement.hpp"
@@ -71,11 +64,5 @@ TEST(FieldElementTests, DivisionTest)
    
    auto d = FieldElement(4, 31);
    auto e = FieldElement(11, 31);
-   ASSERT_EQ(d ^ -4 * e, FieldElement(13, 31));
-}
-
-int main(int argc, const char * argv[])
-{
-   testing::InitGoogleTest(&argc, (char**)argv);
-   return RUN_ALL_TESTS();
+   ASSERT_EQ((d ^ -4) * e, FieldElement(13, 31));
 }

@@ -9,7 +9,7 @@ env = Environment(
     ENV=os.environ,
     # tools=['default', 'textfile'],
     CXXFLAGS=['-Wall', '-Wextra', '--std=c++17', '-Werror', '-Weffc++', '-g'],
-    CPPPATH=['#', './include'],
+    CPPPATH=['#', './include', '/usr/local/include',],
     LIBS=['pthread'],
     LINKFLAGS=['-pthread']
 )
