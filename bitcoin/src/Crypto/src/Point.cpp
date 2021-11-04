@@ -33,7 +33,6 @@ Point::Point(std::optional<int> x, std::optional<int> y, int a, int b)
 
 bool operator==(const Point& lhs, const Point& rhs)
 {
-
     return lhs.X == rhs.X && lhs.Y == rhs.Y
         && lhs.A == rhs.A && lhs.B == rhs.B;
 }
@@ -66,12 +65,17 @@ Point operator+(const Point& lhs, const Point& rhs)
     // Handle X1 != X2
     if (lhs.X != rhs.X)
     {
-        // TODO: Ensure values exist by overloading the subtraction operator
+        // TODO: Ensure Y values exist by overloading the subtraction operator
         auto slope = (rhs.Y.value() - lhs.Y.value()) / (rhs.X.value() - lhs.X.value());
         auto x3 = slope * slope - lhs.X.value() - rhs.X.value();
         auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
         return Point(x3, y3, lhs.A, lhs.B);
     }
+
+    // Handle special case of vertical tangent line.
+    // TODO: Book has this in Python as `if self == other and self.y == 0 * self.x:`
+    if (lhs == rhs && lhs.Y.value() == 0)
+        return Point(std::nullopt, std::nullopt, lhs.A, lhs.B);
 
     // Handle P1 = P2
     if (lhs == rhs)
@@ -83,6 +87,7 @@ Point operator+(const Point& lhs, const Point& rhs)
         return Point(x3, y3, lhs.A, lhs.B);
     }
 
+    // Handle this possible error condition
     return Point(0, 0, 0, 0);
 }
 

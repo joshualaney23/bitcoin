@@ -20,10 +20,13 @@ class FieldElement
     # PowerModulo(a : int, b : int, modulus : int) : int
 }
 note right of FieldElement::operator^
-    Note: Bitwise OR is commandeered for the power operator
+    Note: Bitwise OR is commandeered
+    for the power operator
 end note
 note right of FieldElement::PowerModulo
-    PowerModulo calculates (a^b) & mod
+    PowerModulo calculates (a^b) & mod.
+    Note: this is a free function and
+    not a class member
 end note
 
 @enduml
