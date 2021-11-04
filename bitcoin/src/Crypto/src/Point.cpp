@@ -66,9 +66,19 @@ Point operator+(const Point& lhs, const Point& rhs)
     // Handle X1 != X2
     if (lhs.X != rhs.X)
     {
-        // TODO: Ensure values exhist
+        // TODO: Ensure values exist by overloading the subtraction operator
         auto slope = (rhs.Y.value() - lhs.Y.value()) / (rhs.X.value() - lhs.X.value());
         auto x3 = slope * slope - lhs.X.value() - rhs.X.value();
+        auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
+        return Point(x3, y3, lhs.A, lhs.B);
+    }
+
+    // Handle P1 = P2
+    if (lhs == rhs)
+    {
+        // TODO: Ensure values exist
+        auto slope = ((3 * lhs.X.value() * lhs.X.value()) + lhs.A) / (2 * lhs.Y.value());
+        auto x3 = slope * slope - 2 * lhs.X.value();
         auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
         return Point(x3, y3, lhs.A, lhs.B);
     }
