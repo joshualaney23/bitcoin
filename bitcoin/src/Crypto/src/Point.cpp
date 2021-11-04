@@ -22,6 +22,10 @@ Point::Point(std::optional<int> x, std::optional<int> y, int a, int b)
     if (!X && !Y)
         return;
 
+    // Handle case where one of these values is null. This will prevent edge cases in operator+
+    if (!X || !Y)
+        throw std::runtime_error("X and Y values must either both be null or both non-null");
+
     // y^2 = x^3 + ax + b is the formula for the curve
     if (Y.value() * Y.value() != X.value() * X.value() * X.value() + (A * X.value()) + B)
     {
