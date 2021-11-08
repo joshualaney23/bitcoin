@@ -21,7 +21,7 @@ class FieldElement
     friend FieldElement operator^(const FieldElement& lhs, const int& power);
     friend FieldElement operator/(const FieldElement& lhs, const FieldElement& rhs);
     friend std::ostream& operator<<(std::ostream& os, const FieldElement& element);
-    
+
     int Number;
     int Prime;
 };

@@ -8,16 +8,16 @@ namespace crypto
 {
 
 FieldElement::FieldElement(int number, int prime)
-   : Number(number)
-   , Prime(prime)
+  : Number(number)
+  , Prime(prime)
 {
-   // Valid between 0 and N-1
-   if (Number < 0 || Number >= Prime)
-   {
-       std::stringstream error;
-       error << "Number " << Number << " not in field range [0," << Prime-1 << "].";
-       throw std::runtime_error(error.str());
-   }
+    // Valid between 0 and N-1
+    if (Number < 0 || Number >= Prime)
+    {
+        std::stringstream error;
+        error << "Number " << Number << " not in field range [0," << Prime - 1 << "].";
+        throw std::runtime_error(error.str());
+    }
 }
 
 bool operator==(const FieldElement& lhs, const FieldElement& rhs)

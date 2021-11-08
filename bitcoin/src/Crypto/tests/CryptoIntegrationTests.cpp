@@ -26,15 +26,8 @@ TEST(IntegrationTests, OnCurveTests)
     auto prime = 223;
     auto a = FieldElement(0, prime);
     auto b = FieldElement(7, prime);
-    std::vector<std::pair<int, int>> validPoints {
-        {192, 105},
-        {17, 56},
-        {1, 193}
-    };
-    std::vector<std::pair<int, int>> invalidPoints {
-        {200, 119},
-        {42, 99}
-    };
+    std::vector<std::pair<int, int>> validPoints{{192, 105}, {17, 56}, {1, 193}};
+    std::vector<std::pair<int, int>> invalidPoints{{200, 119}, {42, 99}};
 
     // for (auto point = validPoints.begin(); point != validPoints.end(); point++)
     for (auto point : validPoints)

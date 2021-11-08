@@ -3,8 +3,8 @@
 #include <exception>
 #include <iostream>
 #include <optional>
-#include <string>
 #include <sstream>
+#include <string>
 #include <variant>
 
 namespace crypto
@@ -14,24 +14,19 @@ namespace crypto
 class FieldElement;
 template<class T> class Point;
 template<class T> std::ostream& operator<<(std::ostream& out, const Point<T>& point);
-template <> std::ostream& operator<<(std::ostream& out, const Point<FieldElement>& point);
+template<> std::ostream& operator<<(std::ostream& out, const Point<FieldElement>& point);
 
-template<class T>
-class Point
+template<class T> class Point
 {
   public:
     Point(T x, T y, T a, T b);
     Point(std::optional<T> x, std::optional<T> y, T a, T b);
     ~Point() = default;
 
-    template<class U>
-    friend bool operator==(const Point& lhs, const Point& rhs);
-    template<class U>
-    friend bool operator!=(const Point& lhs, const Point& rhs);
-    template<class U>
-    friend Point operator+(const Point& lhs, const Point& rhs);
-    template<class U>
-    friend std::ostream& operator<<(std::ostream& os, const Point<U>& element);
+    template<class U> friend bool operator==(const Point& lhs, const Point& rhs);
+    template<class U> friend bool operator!=(const Point& lhs, const Point& rhs);
+    template<class U> friend Point operator+(const Point& lhs, const Point& rhs);
+    template<class U> friend std::ostream& operator<<(std::ostream& os, const Point<U>& element);
 
     std::optional<T> X;
     std::optional<T> Y;
@@ -39,25 +34,23 @@ class Point
     T B;
 
   protected:
-    template<class>
-    friend bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs);
-    template<class>
-    friend bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs);
+    template<class> friend bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs);
+    template<class> friend bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs);
 };
 
 template<class T>
 Point<T>::Point(T x, T y, T a, T b)
-    : Point(std::optional<T>(x), std::optional<T>(y), a, b)
+  : Point(std::optional<T>(x), std::optional<T>(y), a, b)
 {
     // Do nothing
 }
 
 template<class T>
 Point<T>::Point(std::optional<T> x, std::optional<T> y, T a, T b)
-   : X(x)
-   , Y(y)
-   , A(a)
-   , B(b)
+  : X(x)
+  , Y(y)
+  , A(a)
+  , B(b)
 {
     // Avoid infinity point
     if (!X && !Y)
@@ -76,21 +69,17 @@ Point<T>::Point(std::optional<T> x, std::optional<T> y, T a, T b)
     }
 }
 
-template<class T>
-bool operator==(const Point<T>& lhs, const Point<T>& rhs)
+template<class T> bool operator==(const Point<T>& lhs, const Point<T>& rhs)
 {
-    return lhs.X == rhs.X && lhs.Y == rhs.Y
-        && lhs.A == rhs.A && lhs.B == rhs.B;
+    return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.A == rhs.A && lhs.B == rhs.B;
 }
 
-template<class T>
-bool operator!=(const Point<T>& lhs, const Point<T>& rhs)
+template<class T> bool operator!=(const Point<T>& lhs, const Point<T>& rhs)
 {
     return !(lhs == rhs);
 }
 
-template<class T>
-Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs)
+template<class T> Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs)
 {
     // Elements must be on the same curve
     if (lhs.A != rhs.A || lhs.B != rhs.B)
@@ -141,8 +130,7 @@ Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs)
     throw std::runtime_error(error.str());
 }
 
-template<class T>
-std::ostream& operator<<(std::ostream& os, const Point<T>& point)
+template<class T> std::ostream& operator<<(std::ostream& os, const Point<T>& point)
 {
     // Write Point to stream
     if (!point.X)
@@ -153,8 +141,7 @@ std::ostream& operator<<(std::ostream& os, const Point<T>& point)
     return os;
 }
 
-template<class T>
-bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs)
+template<class T> bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs)
 {
     // Both are NULL
     if (!lhs && !rhs)
@@ -166,8 +153,7 @@ bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs)
     return lhs.value() == rhs.value();
 }
 
-template<class T>
-bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs)
+template<class T> bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs)
 {
     return !(lhs == rhs);
 }
