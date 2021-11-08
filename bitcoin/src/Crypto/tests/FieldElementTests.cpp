@@ -73,3 +73,19 @@ TEST(FieldElementTests, DivisionTest)
    auto e = FieldElement(11, 31);
    ASSERT_EQ((d ^ -4) * e, FieldElement(13, 31));
 }
+
+bool OnCurve(FieldElement x, FieldElement y)
+{
+   auto a = FieldElement(0, 223);
+   auto b = FieldElement(7, 223);
+   return (y ^ 2) == ((x ^ 3) + a * x + b);
+}
+
+TEST(FieldElementTests, Chapter3Exercise1Test)
+{
+   ASSERT_TRUE(OnCurve(FieldElement(192, 223), FieldElement(105, 223)));
+   ASSERT_TRUE(OnCurve(FieldElement(17, 223), FieldElement(56, 223)));
+   ASSERT_FALSE(OnCurve(FieldElement(200, 223), FieldElement(119, 223)));
+   ASSERT_TRUE(OnCurve(FieldElement(1, 223), FieldElement(193, 223)));
+   ASSERT_FALSE(OnCurve(FieldElement(42, 223), FieldElement(99, 223)));
+}
