@@ -1,12 +1,20 @@
 #pragma once
 
+#include <exception>
 #include <iostream>
 #include <optional>
 #include <string>
-#include <exception>
+#include <sstream>
+#include <variant>
 
 namespace crypto
 {
+
+// Forward declarations for template specialization
+class FieldElement;
+template<class T> class Point;
+template<class T> std::ostream& operator<<(std::ostream& out, const Point<T>& point);
+template <> std::ostream& operator<<(std::ostream& out, const Point<FieldElement>& point);
 
 template<class T>
 class Point
@@ -16,15 +24,15 @@ class Point
     Point(std::optional<T> x, std::optional<T> y, T a, T b);
     ~Point() = default;
 
-    template<class>
+    template<class U>
     friend bool operator==(const Point& lhs, const Point& rhs);
-    template<class>
+    template<class U>
     friend bool operator!=(const Point& lhs, const Point& rhs);
-    template<class>
+    template<class U>
     friend Point operator+(const Point& lhs, const Point& rhs);
-    template<class>
-    friend std::ostream& operator<<(std::ostream& os, const Point& element);
-    
+    template<class U>
+    friend std::ostream& operator<<(std::ostream& os, const Point<U>& element);
+
     std::optional<T> X;
     std::optional<T> Y;
     T A;
