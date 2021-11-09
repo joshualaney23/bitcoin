@@ -200,9 +200,9 @@ template<class T> Point<FieldElement<T>> operator+(const Point<FieldElement<T>>&
     if (lhs == rhs)
     {
         // TODO: Ensure values exist
-        auto slope = ((FieldElement(3, lhs.A.Prime) * lhs.X.value() * lhs.X.value()) + lhs.A) /
-                     (FieldElement(2, lhs.A.Prime) * lhs.Y.value());
-        auto x3 = (slope * slope) - (FieldElement(2, lhs.A.Prime) * lhs.X.value());
+        auto slope = ((FieldElement<T>(3, lhs.A.Prime) * lhs.X.value() * lhs.X.value()) + lhs.A) /
+                     (FieldElement<T>(2, lhs.A.Prime) * lhs.Y.value());
+        auto x3 = (slope * slope) - (FieldElement<T>(2, lhs.A.Prime) * lhs.X.value());
         auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
         return Point<FieldElement<T>>(x3, y3, lhs.A, lhs.B);
     }
