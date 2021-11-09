@@ -10,6 +10,7 @@ env = Environment(
     # tools=['default', 'textfile'],
     CXXFLAGS=['-Wall', '-Wextra', '--std=c++17', '-Werror', '-Weffc++', '-g'],
     CPPPATH=['#', './include', '/usr/local/include',],
+    LIBPATH = ['/usr/lib', '/usr/local/lib', '/usr/local/lib/calccrypto'],
     LIBS=['pthread'],
     LINKFLAGS=['-pthread']
 )

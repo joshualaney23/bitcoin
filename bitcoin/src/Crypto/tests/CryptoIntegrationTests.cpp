@@ -3,6 +3,8 @@
 #include "FieldElement.hpp"
 #include "Point.hpp"
 
+#include <boost/multiprecision/cpp_int.hpp>
+
 using namespace crypto;
 
 TEST(IntegrationTests, AdditionOfFieldElements)
@@ -98,4 +100,84 @@ TEST(IntegrationTests, PointAddition2Tests)
 
         ASSERT_EQ(p1 + p2, p3);
     }
+}
+
+TEST(IntegrationTests, PointMultiplicationTests)
+{
+    auto prime = 223;
+    auto a = FieldElement(0, prime);
+    auto b = FieldElement(7, prime);
+
+    auto x1 = FieldElement(192, prime);
+    auto y1 = FieldElement(105, prime);
+    auto p1 = Point<FieldElement<int>>(x1, y1, a, b);
+    auto point = p1 + p1;
+    ASSERT_EQ(point.X.value().Number, 49);
+    ASSERT_EQ(point.Y.value().Number, 71);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+
+    auto x2 = FieldElement(143, prime);
+    auto y2 = FieldElement(98, prime);
+    auto p2 = Point<FieldElement<int>>(x2, y2, a, b);
+    point = p2 + p2;
+    ASSERT_EQ(point.X.value().Number, 64);
+    ASSERT_EQ(point.Y.value().Number, 168);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+
+    auto x3 = FieldElement(47, prime);
+    auto y3 = FieldElement(71, prime);
+    auto p3 = Point<FieldElement<int>>(x3, y3, a, b);
+    point = p3 + p3;
+    ASSERT_EQ(point.X.value().Number, 36);
+    ASSERT_EQ(point.Y.value().Number, 111);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+
+    point = p3 + p3 + p3 + p3;
+    ASSERT_EQ(point.X.value().Number, 194);
+    ASSERT_EQ(point.Y.value().Number, 51);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+
+    point = p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3;
+    ASSERT_EQ(point.X.value().Number, 116);
+    ASSERT_EQ(point.Y.value().Number, 55);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+
+    // Infinity point
+    point = p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3 + p3;
+    ASSERT_EQ(point.X, std::nullopt);
+    ASSERT_EQ(point.Y, std::nullopt);
+    ASSERT_EQ(point.A.Number, 0);
+    ASSERT_EQ(point.B.Number, 7);
+    ASSERT_EQ(point.B.Prime, prime);
+}
+
+TEST(IntegrationTests, PointAdditionUint256tTests)
+{
+    using boost::multiprecision::uint256_t;
+    uint256_t prime = 223;
+    auto a = FieldElement<uint256_t>((uint256_t)0, prime);
+    auto b = FieldElement<uint256_t>(7, prime);
+    auto x1 = FieldElement<uint256_t>(192, prime);
+    auto y1 = FieldElement<uint256_t>(105, prime);
+    auto x2 = FieldElement<uint256_t>(17, prime);
+    auto y2 = FieldElement<uint256_t>(56, prime);
+    auto p1 = Point<FieldElement<uint256_t>>(x1, y1, a, b);
+    auto p2 = Point<FieldElement<uint256_t>>(x2, y2, a, b);
+    auto p3 = p1 + p2;
+
+    ASSERT_EQ(p3.X.value().Number, 170);
+    ASSERT_EQ(p3.Y.value().Number, 142);
+    ASSERT_EQ(p3.A.Number, 0);
+    ASSERT_EQ(p3.B.Number, 7);
+    ASSERT_EQ(p3.B.Prime, prime);
 }
