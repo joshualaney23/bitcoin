@@ -74,7 +74,7 @@ TEST(FieldElementTests, DivisionTest)
     ASSERT_EQ((d ^ -4) * e, FieldElement(13, 31));
 }
 
-bool OnCurve(FieldElement x, FieldElement y)
+bool OnCurve(FieldElement<int> x, FieldElement<int> y)
 {
     auto a = FieldElement(0, 223);
     auto b = FieldElement(7, 223);

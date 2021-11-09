@@ -6,7 +6,7 @@ namespace crypto
 {
 
 // Specializations for FieldElement
-template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const Point<FieldElement>& rhs)
+template<class T> Point<FieldElement<T>> operator+(const Point<FieldElement<T>>& lhs, const Point<FieldElement<T>>& rhs)
 {
     // Elements must be on the same curve
     if (lhs.A != rhs.A || lhs.B != rhs.B)
@@ -24,7 +24,7 @@ template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const P
 
     // Handle vertical line
     if (lhs.X == rhs.X && lhs.Y != rhs.Y)
-        return Point<FieldElement>(std::nullopt, std::nullopt, lhs.A, lhs.B);
+        return Point<FieldElement<T>>(std::nullopt, std::nullopt, lhs.A, lhs.B);
 
     // Handle X1 != X2
     if (lhs.X != rhs.X)
@@ -33,13 +33,13 @@ template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const P
         auto slope = (rhs.Y.value() - lhs.Y.value()) / (rhs.X.value() - lhs.X.value());
         auto x3 = slope * slope - lhs.X.value() - rhs.X.value();
         auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
-        return Point<FieldElement>(x3, y3, lhs.A, lhs.B);
+        return Point<FieldElement<T>>(x3, y3, lhs.A, lhs.B);
     }
 
     // Handle special case of vertical tangent line.
     // TODO: Book has this in Python as `if self == other and self.y == 0 * self.x:`
     if (lhs == rhs && lhs.Y.value().Number == 0)
-        return Point<FieldElement>(std::nullopt, std::nullopt, lhs.A, lhs.B);
+        return Point<FieldElement<T>>(std::nullopt, std::nullopt, lhs.A, lhs.B);
 
     // Handle P1 = P2
     if (lhs == rhs)
@@ -49,7 +49,7 @@ template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const P
                      (FieldElement(2, lhs.A.Prime) * lhs.Y.value());
         auto x3 = (slope * slope) - (FieldElement(2, lhs.A.Prime) * lhs.X.value());
         auto y3 = slope * (lhs.X.value() - x3) - lhs.Y.value();
-        return Point<FieldElement>(x3, y3, lhs.A, lhs.B);
+        return Point<FieldElement<T>>(x3, y3, lhs.A, lhs.B);
     }
 
     // Handle this possible error condition
@@ -58,7 +58,7 @@ template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const P
     throw std::runtime_error(error.str());
 }
 
-template<> std::ostream& operator<<(std::ostream& os, const Point<FieldElement>& point)
+template<class T> std::ostream& operator<<(std::ostream& os, const Point<FieldElement<T>>& point)
 {
     if (!point.X)
         os << "Point(infinity)";

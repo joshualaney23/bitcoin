@@ -11,12 +11,13 @@ namespace crypto
 {
 
 // Forward declarations for template specialization
-class FieldElement;
+template<class T> class FieldElement;
 template<class T> class Point;
 template<class T> std::ostream& operator<<(std::ostream& out, const Point<T>& point);
-template<> std::ostream& operator<<(std::ostream& out, const Point<FieldElement>& point);
+template<class T> std::ostream& operator<<(std::ostream& out, const Point<FieldElement<T>>& point);
 template<class T> Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs);
-template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const Point<FieldElement>& rhs);
+template<class T>
+Point<FieldElement<T>> operator+(const Point<FieldElement<T>>& lhs, const Point<FieldElement<T>>& rhs);
 
 template<class T> class Point
 {
