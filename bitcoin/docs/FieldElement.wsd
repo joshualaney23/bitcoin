@@ -1,8 +1,8 @@
 @startuml
 
-class FieldElement
+class FieldElement<class T>
 {
-    + FieldElement(number : int, prime : int);
+    + FieldElement(number : T, prime : T);
     + ~FieldElement() = default;
 
     + operator==(lhs : const FieldElement&, rhs : const FieldElement&) : bool
@@ -14,8 +14,8 @@ class FieldElement
     + operator/(other : const FieldElement&) : FieldElement
     + operator<<(os : std::ostream&, element : const FieldElement&) : ostream&
     
-    + Number : int
-    + Prime : int
+    + Number : T
+    + Prime : T
 
     # PowerModulo(a : int, b : int, modulus : int) : int
 }

@@ -1,9 +1,9 @@
 @startuml
 
-class Point
+class Point<class T>
 {
-    + Point(int x, int y, int a, int b);
-    + Point(std::optional<int> x, std::optional<int> y, int a, int b);
+    + Point(T x, T y, T a, T b);
+    + Point(std::optional<T> x, std::optional<T> y, T a, T b);
     + ~Point() = default;
 
     + operator==(lhs : const Point&, rhs : const Point&) : bool
@@ -11,13 +11,13 @@ class Point
     + operator+(lhs : const Point&, rhs : const Point&) : Point
     + operator<<(os : std::ostream&, element : const Point&) : ostream&
 
-    + X : optional<int>
-    + Y : optional<int>
-    + A : int
-    + B : int
+    + X : optional<T>
+    + Y : optional<T>
+    + A : T
+    + B : T
 
-    # operator==(lhs : const optional<int>&, rhs : const optional<int>&) : bool
-    # operator!=(lhs : const optional<int>&, rhs : const optional<int>&) : bool
+    # operator==(lhs : const optional<T>&, rhs : const optional<T>&) : bool
+    # operator!=(lhs : const optional<T>&, rhs : const optional<T>&) : bool
 }
 
 @enduml
