@@ -15,6 +15,8 @@ class FieldElement;
 template<class T> class Point;
 template<class T> std::ostream& operator<<(std::ostream& out, const Point<T>& point);
 template<> std::ostream& operator<<(std::ostream& out, const Point<FieldElement>& point);
+template<class T> Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs);
+template<> Point<FieldElement> operator+(const Point<FieldElement>& lhs, const Point<FieldElement>& rhs);
 
 template<class T> class Point
 {
@@ -34,8 +36,8 @@ template<class T> class Point
     T B;
 
   protected:
-    template<class> friend bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs);
-    template<class> friend bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs);
+    template<class U> friend bool operator==(const std::optional<T>& lhs, const std::optional<T>& rhs);
+    template<class U> friend bool operator!=(const std::optional<T>& lhs, const std::optional<T>& rhs);
 };
 
 template<class T>
@@ -85,7 +87,7 @@ template<class T> Point<T> operator+(const Point<T>& lhs, const Point<T>& rhs)
     if (lhs.A != rhs.A || lhs.B != rhs.B)
     {
         std::stringstream error;
-        error << "Points " << lhs << ", " << rhs << "are not on the same curve";
+        error << "Points " << lhs << ", " << rhs << " are not on the same curve";
         throw std::runtime_error(error.str());
     }
 

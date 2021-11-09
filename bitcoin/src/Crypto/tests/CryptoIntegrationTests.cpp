@@ -62,11 +62,11 @@ TEST(IntegrationTests, PointAdditionTests)
     auto y2 = FieldElement(56, prime);
     auto p1 = Point<FieldElement>(x1, y1, a, b);
     auto p2 = Point<FieldElement>(x2, y2, a, b);
+    auto p3 = p1 + p2;
 
-    // std::cout << p1 + p2 << std::endl;
-    // ASSERT_EQ(point.X.value().Number, 192);
-    // ASSERT_EQ(point.Y.value().Number, 105);
-    // ASSERT_EQ(point.A.Number, 0);
-    // ASSERT_EQ(point.B.Number, 7);
-    // ASSERT_EQ(point.B.Prime, prime);
+    ASSERT_EQ(p3.X.value().Number, 170);
+    ASSERT_EQ(p3.Y.value().Number, 142);
+    ASSERT_EQ(p3.A.Number, 0);
+    ASSERT_EQ(p3.B.Number, 7);
+    ASSERT_EQ(p3.B.Prime, prime);
 }
