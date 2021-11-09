@@ -161,6 +161,37 @@ TEST(IntegrationTests, PointMultiplicationTests)
     ASSERT_EQ(point.B.Prime, prime);
 }
 
+TEST(IntegrationTests, PointGroupDeterminationTests)
+{
+    auto prime = 223;
+    auto a = FieldElement(0, prime);
+    auto b = FieldElement(7, prime);
+    auto x = FieldElement(15, prime);
+    auto y = FieldElement(86, prime);
+    auto p = Point<FieldElement<int>>(x, y, a, b);
+
+    auto group1 = p + p + p + p + p + p + p;
+    ASSERT_EQ(group1.X, std::nullopt);
+    ASSERT_EQ(group1.Y, std::nullopt);
+    ASSERT_EQ(group1.A.Number, 0);
+    ASSERT_EQ(group1.B.Number, 7);
+    ASSERT_EQ(group1.B.Prime, prime);
+
+    auto group2 = p * 7;
+    ASSERT_EQ(group2.X, std::nullopt);
+    ASSERT_EQ(group2.Y, std::nullopt);
+    ASSERT_EQ(group2.A.Number, 0);
+    ASSERT_EQ(group2.B.Number, 7);
+    ASSERT_EQ(group2.B.Prime, prime);
+
+    auto group3 = 7 * p;
+    ASSERT_EQ(group3.X, std::nullopt);
+    ASSERT_EQ(group3.Y, std::nullopt);
+    ASSERT_EQ(group3.A.Number, 0);
+    ASSERT_EQ(group3.B.Number, 7);
+    ASSERT_EQ(group3.B.Prime, prime);
+}
+
 TEST(IntegrationTests, PointAdditionUint256tTests)
 {
     using boost::multiprecision::uint256_t;

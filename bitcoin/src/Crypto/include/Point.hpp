@@ -29,6 +29,8 @@ template<class T> class Point
     template<class U> friend bool operator==(const Point& lhs, const Point& rhs);
     template<class U> friend bool operator!=(const Point& lhs, const Point& rhs);
     template<class U> friend Point operator+(const Point& lhs, const Point& rhs);
+    template<class U> friend Point operator*(const Point& lhs, const int& coefficient);
+    template<class U> friend Point operator*(const int& coefficient, const Point& rhs);
     template<class U> friend std::ostream& operator<<(std::ostream& os, const Point<U>& element);
 
     std::optional<T> X;
@@ -224,6 +226,29 @@ template<class T> std::ostream& operator<<(std::ostream& os, const Point<FieldEl
     }
 
     return os;
+}
+
+template<class T> Point<T> operator*(const Point<T>& lhs, const int& coefficient)
+{
+    auto coef = coefficient;
+    auto current = lhs;
+    auto result = Point<T>(std::nullopt, std::nullopt, lhs.A, lhs.B);
+    while (coef)
+    {
+        if (coef & 1)
+        {
+            result = result + current;
+        }
+        current = current + current;
+        coef >>= 1;
+    }
+
+    return result;
+}
+
+template<class T> Point<T> operator*(const int& coefficient, const Point<T>& rhs)
+{
+    return rhs * coefficient;
 }
 
 } // namespace crypto
