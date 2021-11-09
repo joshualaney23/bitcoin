@@ -14,13 +14,13 @@ for subdir in subdirs:
 ## Aliases
 env.Alias('lib',
     [
-        'crypto-lib',
+        # 'crypto-lib',
     ]
 )
 
 env.Alias('install-lib',
     [
-        'install-crypto-lib',
+        # 'install-crypto-lib',
     ]
 )
 

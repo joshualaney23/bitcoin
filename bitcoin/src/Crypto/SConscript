@@ -2,23 +2,26 @@ import os
 
 Import(['env'])
 
-libEnv = env.Clone()
-libEnv.Append(
-    CPPPATH=['include'],
-    # LIBS=[]
-)
+# libEnv = env.Clone()
+# libEnv.Append(
+#     CPPPATH=['include'],
+#     # LIBS=[]
+# )
 
-# Build shared library
-sources = Glob('src/*.cpp')
-crypto = libEnv.SharedLibrary('BtcCrypto', sources)
-libEnv.Alias('crypto-lib', crypto)
-libEnv.Alias('install-crypto-lib', env.Install(env['BTC_LIBS'], crypto))
+# # Build shared library
+# sources = Glob('src/*.cpp')
+# crypto = libEnv.SharedLibrary('BtcCrypto', sources)
+# libEnv.Alias('crypto-lib', crypto)
+# libEnv.Alias('install-crypto-lib', env.Install(env['BTC_LIBS'], crypto))
+
+
+# This is a header only library
 
 # Build tests
-testEnv = libEnv.Clone()
+testEnv = env.Clone()
 testEnv.Append(
     LIBS=[
-        'BtcCrypto',
+        # 'BtcCrypto',
         'gtest',
         'gtest_main',
     ]
