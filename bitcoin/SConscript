@@ -4,6 +4,7 @@ Import(['env'])
 
 subdirs = [
     'crypto',
+    'uint256',
 ]
 
 for subdir in subdirs:
@@ -15,23 +16,27 @@ for subdir in subdirs:
 env.Alias('lib',
     [
         # 'crypto-lib',
+        'uint256-lib',
     ]
 )
 
 env.Alias('install-lib',
     [
         # 'install-crypto-lib',
+        'install-uint256-lib',
     ]
 )
 
 env.Alias('test-lib',
     [
         'test-crypto-lib',
+        'test-uint256-lib',
     ]
 )
 
 env.Alias('runtests-lib',
     [
         'runtest-crypto-lib',
+        'runtest-uint256-lib',
     ]
 )

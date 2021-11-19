@@ -21,7 +21,6 @@ env['BTC_BUILD'] = env['BTC_TOP'].Dir('build')
 env['BTC_LIBS'] = env['BTC_BUILD'].Dir('lib')
 env['BTC_BINS'] = env['BTC_BUILD'].Dir('bin')
 env['BTC_TESTS'] = env['BTC_BUILD'].Dir('tests')
-
 env.Append(LIBPATH=Dir(env['BTC_LIBS']))
 
 # Test setup
